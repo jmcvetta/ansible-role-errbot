@@ -7,6 +7,8 @@ GEM
     kitchen-ansible (0.0.30)
       librarian-ansible
       test-kitchen
+    kitchen-vagrant (0.19.0)
+      test-kitchen (~> 1.4)
     librarian (0.1.2)
       highline
       thor (~> 0.15)
@@ -32,6 +34,7 @@ PLATFORMS
 
 DEPENDENCIES
   kitchen-ansible
+  kitchen-vagrant
   test-kitchen
 
 BUNDLED WITH
