@@ -1,2 +1,5 @@
 .kitchen/
 .kitchen.local.yml
+
+# vim swap files
+*.swp
