@@ -1,0 +1,12 @@
+#
+# Ansible playbook for testing Errbot role with Test Kitchen
+#
+---
+
+- hosts: all
+  vars:
+    errbot_xmpp: true
+    errbot_hipchat: true
+    errbot_irc: true
+  roles:
+  - errbot

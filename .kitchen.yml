@@ -3,7 +3,9 @@ driver:
   name: vagrant
 
 provisioner:
-  name: chef_solo
+  name: ansible_playbook
+  playbook: test.yml
+  hosts: all
 
 platforms:
   - name: ubuntu-14.04
