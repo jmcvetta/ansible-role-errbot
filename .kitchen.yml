@@ -4,7 +4,7 @@ driver:
 
 provisioner:
   name: ansible_playbook
-  playbook: test.yml
+  playbook: test-kitchen.yml
   hosts: all
   ansible_yum_repo: "https://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm"
 
