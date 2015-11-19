@@ -48,7 +48,7 @@ import logging
 
 # The location where all of Err's data should be stored. Make sure to set
 # this to a directory that is writable by the user running the bot.
-BOT_DATA_DIR = '/var/lib/err'
+BOT_DATA_DIR = '{{ errbot_home }}/data/'
 
 # Set this to a directory on your system where you want to load extra
 # plugins from, which is useful mostly if you want to develop a plugin
@@ -73,7 +73,7 @@ BOT_EXTRA_PLUGIN_DIR = None
 
 # The location of the log file. If you set this to None, then logging will
 # happen to console only.
-BOT_LOG_FILE = '/var/log/err/err.log'
+BOT_LOG_FILE = '{{ errbot_home }}/log/err.log'
 
 # The verbosity level of logging that is done to the above logfile, and to
 # the console. This takes the standard Python logging levels, DEBUG, INFO,
