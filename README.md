@@ -7,8 +7,13 @@ Ansible role to deploy [Errbot](http://errbot.io/), a Python-based
 Requirements
 ------------
 
-Tested against:
- * Ubuntu 14.04LTS
+Tested against the following platforms
+
+```yaml
+platforms:
+  - name: ubuntu-14.04
+  - name: centos-7.1
+```
 
 Role Variables
 --------------
