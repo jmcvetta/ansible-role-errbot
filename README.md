@@ -7,7 +7,8 @@ Ansible role to deploy [Errbot](http://errbot.io/), a Python-based
 Requirements
 ------------
 
-Tested against the following platforms
+This role is tested against the platforms show below.  Other Linux flavors may
+work but are not supported - YMMV.
 
 ```yaml
 platforms:
@@ -15,29 +16,43 @@ platforms:
   - name: centos-7.1
 ```
 
+Testing
+-------
+
+This role can be tested using [Test Kitchen](http://kitchen.ci).  
+
+```bash
+bundle install
+kitchen test
+```
+
+
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+n/a
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+n/a
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+    - hosts: errbot_servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: jason.mcvetta.errbot
+
 
 License
 -------
 
 Apache v2
+
 
 Author Information
 ------------------
