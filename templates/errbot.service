@@ -1,0 +1,18 @@
+#-------------------------------------------------------------------------------
+#
+# SystemD service for Errbot
+#
+#-------------------------------------------------------------------------------
+# {{ ansible_managed }}
+#-------------------------------------------------------------------------------
+
+[Unit]
+Description=Errbot Chat Robot
+
+[Service]
+ExecStart={{ errbot_bin }}
+WorkingDirectory={{ errbot_home }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

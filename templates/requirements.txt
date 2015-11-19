@@ -1,0 +1,13 @@
+#===============================================================================
+#
+# Python package requirements for Errbot
+#
+#-------------------------------------------------------------------------------
+# {{ ansible_managed }}
+#===============================================================================
+
+errbot
+
+# These are present by default on Ubuntu 14.04, but are required by CentOS
+funcsigs
+setuptools>=17.1

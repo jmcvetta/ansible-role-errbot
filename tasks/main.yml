@@ -29,12 +29,9 @@
     - python-virtualenv
     - python-devel
     - libffi-devel
+    - gcc
+    - openssl-devel
   when: ansible_os_family == 'RedHat'
-
-- name: Ensure Pip is up to date
-  pip:
-    name: pip
-    state: latest
 
 - name: Ensure dependencies required for XMPP backend are installed
   pip:
@@ -62,9 +59,14 @@
     virtualenv: "{{ errbot_virtualenv }}"
   when: errbot_irc
 
-- name: Ensure Errbot is installed
+- name: Ensure Errbot's Python requirements file is present
+  template:
+    src: requirements.txt
+    dest: "{{ errbot_home }}/requirements.txt"
+
+- name: Ensure Errbot and dependencies are installed
   pip:
-    name: errbot
+    requirements: "{{ errbot_home }}/requirements.txt"
     state: present
     virtualenv: "{{ errbot_virtualenv }}"
 
@@ -86,7 +88,7 @@
 - name: Ensure Errbot's SystemD service file is present
   template:
     src: errbot.service
-    dest: /etc/systemd/user/errbot.service
+    dest: /etc/systemd/system/errbot.service
   when: use_systemd
 
 - name: Ensure Errbot's Upstart configuration is present
