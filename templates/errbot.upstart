@@ -13,7 +13,7 @@ respawn
 
 script
 	cd {{ errbot_home }}
-	exec errbot
+	exec {{ errbot_bin }}
 end script
 
 

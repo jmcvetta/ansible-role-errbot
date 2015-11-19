@@ -1,6 +1,6 @@
 ---
 
-dependency_packages:
-  - python-pip
-  - python-dev
-  - libffi-dev
+errbot_virtualenv: "{{ errbot_home }}/venv"
+errbot_bin: "{{ errbot_virtualenv }}/bin/errbot"
+
+use_systemd: no

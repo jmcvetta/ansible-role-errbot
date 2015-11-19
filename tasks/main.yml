@@ -1,23 +1,46 @@
 ---
 
-- name: Ensure APT package dependencies are installed 
-  apt:
-    name: "{{ item }}"
-    state: present
-  when: ansible_os_family == 'Debian'
-  with_items: dependency_packages
+- name: Check if this host runs SystemD
+  shell: pidof systemd > /dev/null && echo systemd || echo other
+  register: systemd_running
+  changed_when: false
+
+- name: Set use_systemd fact
+  set_fact: use_systemd=yes
+  when: systemd_running.stdout == 'systemd'
 
 - name: Ensure APT package dependencies are installed 
   apt:
     name: "{{ item }}"
     state: present
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - python-dev
+    - libffi-dev
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure RPM package dependencies are installed 
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - python-devel
+    - libffi-devel
   when: ansible_os_family == 'RedHat'
-  with_items: dependency_packages
+
+- name: Ensure Pip is up to date
+  pip:
+    name: pip
+    state: latest
 
 - name: Ensure dependencies required for XMPP backend are installed
   pip:
     name: "{{ item }}"
     state: present
+    virtualenv: "{{ errbot_virtualenv }}"
   when: errbot_xmpp
   with_items:
     - sleekxmpp
@@ -29,34 +52,48 @@
   pip:
     name: hypchat
     state: present
+    virtualenv: "{{ errbot_virtualenv }}"
   when: errbot_hipchat
 
 - name: Ensure dependencies required for IRC backend are installed
   pip:
     name: irc
     state: present
+    virtualenv: "{{ errbot_virtualenv }}"
   when: errbot_irc
 
 - name: Ensure Errbot is installed
   pip:
     name: errbot
     state: present
+    virtualenv: "{{ errbot_virtualenv }}"
 
-- name: Ensure Errbot data folder exists, and has reasonable owernship & permissions
+- name: Ensure Errbot folders exist, and has reasonable owernship & permissions
   file:
-    path: "{{ errbot_home }}"
+    path: "{{ item }}"
     state: directory
     # FIXME: owernship & permissions need to be specified
+  with_items:
+    - errbot_home
+    - "{{ errbot_home }}/data/"
+    - "{{ errbot_home }}/log/"
 
 - name: Ensure Errbot is configured
   template:
     src: config.py
     dest: "{{ errbot_home }}/config.py"
 
+- name: Ensure Errbot's SystemD service file is present
+  template:
+    src: errbot.service
+    dest: /etc/systemd/user/errbot.service
+  when: use_systemd
+
 - name: Ensure Errbot's Upstart configuration is present
   template:
     src: errbot.upstart
     dest: /etc/init/errbot.conf
+  when: not use_systemd
 
 - name: Ensure Errbot service is enabled and started
   service:
