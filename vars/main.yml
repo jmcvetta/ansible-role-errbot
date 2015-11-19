@@ -1,2 +1,6 @@
 ---
-# vars file for ansible-role-errbot
+
+dependency_packages:
+  - python-pip
+  - python-dev
+  - libffi-dev

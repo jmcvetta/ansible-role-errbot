@@ -1,2 +1,13 @@
 ---
-# defaults file for ansible-role-errbot
+
+# Install libraries necessary to use XMPP backend?
+errbot_xmpp: false
+
+# Install libraries necessary to use HipChat backend?
+errbot_hipchat: false
+
+# Install libraries necessary to use IRC backend?
+errbot_irc: false
+
+# Where to keep Errbot's configuration, data, and logs
+errbot_home: /srv/errbot

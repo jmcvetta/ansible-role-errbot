@@ -1,2 +1,65 @@
 ---
-# tasks file for ansible-role-errbot
+
+- name: Ensure APT package dependencies are installed 
+  apt:
+    name: "{{ item }}"
+    state: present
+  when: ansible_os_family == 'Debian'
+  with_items: dependency_packages
+
+- name: Ensure APT package dependencies are installed 
+  apt:
+    name: "{{ item }}"
+    state: present
+  when: ansible_os_family == 'RedHat'
+  with_items: dependency_packages
+
+- name: Ensure dependencies required for XMPP backend are installed
+  pip:
+    name: "{{ item }}"
+    state: present
+  when: errbot_xmpp
+  with_items:
+    - sleekxmpp
+    - pyasn1
+    - pyasn1-modules
+    - dnspython3
+
+- name: Ensure dependencies required for HipChat backend are installed
+  pip:
+    name: hypchat
+    state: present
+  when: errbot_hipchat
+
+- name: Ensure dependencies required for IRC backend are installed
+  pip:
+    name: irc
+    state: present
+  when: errbot_irc
+
+- name: Ensure Errbot is installed
+  pip:
+    name: errbot
+    state: present
+
+- name: Ensure Errbot data folder exists, and has reasonable owernship & permissions
+  file:
+    path: "{{ errbot_home }}"
+    state: directory
+    # FIXME: owernship & permissions need to be specified
+
+- name: Ensure Errbot is configured
+  template:
+    src: config.py
+    dest: "{{ errbot_home }}/config.py"
+
+- name: Ensure Errbot's Upstart configuration is present
+  template:
+    src: errbot.upstart
+    dest: /etc/init/errbot.conf
+
+- name: Ensure Errbot service is enabled and started
+  service:
+    name: errbot
+    enabled: yes
+    state: started
