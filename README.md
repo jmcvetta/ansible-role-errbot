@@ -23,7 +23,7 @@ This role can be tested using [Test Kitchen](http://kitchen.ci).
 
 ```bash
 bundle install
-kitchen test
+bundle exec kitchen test
 ```
 
 
